@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="YAMLConfig" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
+        <property name="resources">
+            <list>
+                <value>classpath:application.yaml</value>
+            </list>
+        </property>
+    </bean>
+    <context:property-placeholder properties-ref="YAMLConfig"/>
+
+    <!--SAMPLES-->
+    <bean id="sampleSubmissionExample" class="com.epam.bigdata.entities.SampleSubmission">
+        <constructor-arg name="id" value="0"/>
+        <constructor-arg name="hotel_cluster" value=""/>
+    </bean>
+    <bean id="trainExample" class="com.epam.bigdata.entities.Train"/>
+    <bean id="destinations2Example" class="com.epam.bigdata.entities.Destinations2"/>
+    <bean id="test2Example" class="com.epam.bigdata.entities.Test2"/>
+    <!--!SAMPLES-->
+
+    <bean id="csvReader" class="de.siegmar.fastcsv.reader.CsvReader">
+        <property name="containsHeader" value="true"/>
+    </bean>
+
+    <!--CONVERTERS-->
+    <bean lazy-init="true" id="ConvertDestinations" class="com.epam.bigdata.Converter" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${destinations2.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetFile">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${output_dir}${destinations2.output}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.Destinations2Factory">
+                <constructor-arg name="d2" ref="destinations2Example"/>
+            </bean>
+        </property>
+        <property name="avroFile">
+            <bean class="org.apache.avro.file.DataFileWriter">
+                <constructor-arg name="dout">
+                    <bean class="org.apache.avro.specific.SpecificDatumWriter">
+                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Destinations2"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <bean lazy-init="true" id="ConvertTrain" class="com.epam.bigdata.Converter" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${train.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetFile">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${output_dir}${train.output}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.TrainFactory">
+                <constructor-arg name="train" ref="trainExample"/>
+            </bean>
+        </property>
+        <property name="avroFile">
+            <bean class="org.apache.avro.file.DataFileWriter">
+                <constructor-arg name="dout">
+                    <bean class="org.apache.avro.specific.SpecificDatumWriter">
+                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Train"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <bean lazy-init="true" id="ConvertSampleSubmission" class="com.epam.bigdata.Converter" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${sample.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetFile">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${output_dir}${sample.output}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.SampleSubmissionFactory">
+                <constructor-arg name="sampleSubmission" ref="sampleSubmissionExample"/>
+            </bean>
+        </property>
+        <property name="avroFile">
+            <bean class="org.apache.avro.file.DataFileWriter">
+                <constructor-arg name="dout">
+                    <bean class="org.apache.avro.specific.SpecificDatumWriter">
+                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.SampleSubmission"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <bean lazy-init="true" id="ConvertTest2" class="com.epam.bigdata.Converter" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${test2.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetFile">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${output_dir}${test2.output}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.Test2Factory">
+                <constructor-arg name="test2" ref="test2Example"/>
+            </bean>
+        </property>
+        <property name="avroFile">
+            <bean class="org.apache.avro.file.DataFileWriter">
+                <constructor-arg name="dout">
+                    <bean class="org.apache.avro.specific.SpecificDatumWriter">
+                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Test2"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+    <!--!CONVERTERS-->
+
+    <bean id="Converters" class="com.epam.bigdata.ScvToAvroApplication" init-method="convertAll">
+        <constructor-arg name="converters">
+            <list>
+                <ref bean="ConvertDestinations"/>
+                <ref bean="ConvertTrain"/>
+                <ref bean="ConvertSampleSubmission"/>
+                <ref bean="ConvertTest2"/>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>

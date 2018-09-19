@@ -1,0 +1,9 @@
+{
+ "namespace": "com.epam.bigdata.entities",
+ "type": "record",
+ "name": "SampleSubmission",
+ "fields": [
+    {"name": "id", "type": "long"},
+    {"name": "hotel_cluster", "type": "string"}
+ ]
+}

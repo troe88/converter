@@ -1,0 +1,14 @@
+input_dir: .//
+output_dir: .//
+sample:
+  scr: sample_submission.csv
+  output: sample_submission.avro
+destinations2:
+  scr: destinations2.csv
+  output: destinations2.avro
+test2:
+  scr: test2.csv
+  output: test2.avro
+train:
+  scr: train.csv
+  output: train.avro
