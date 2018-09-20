@@ -2,7 +2,7 @@
 /target/
 .mvn/
 mvnw*
-*/entities
+entities/
 
 ### STS ###
 .apt_generated
