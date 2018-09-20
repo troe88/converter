@@ -3,12 +3,12 @@ output_dir: .//
 sample:
   scr: sample_submission.csv
   output: sample_submission.avro
-destinations2:
-  scr: destinations2.csv
-  output: destinations2.avro
-test2:
-  scr: test2.csv
-  output: test2.avro
+destinations:
+  scr: destinations.csv
+  output: destinations.avro
+test:
+  scr: test.csv
+  output: test.avro
 train:
   scr: train.csv
   output: train.avro

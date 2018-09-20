@@ -33,17 +33,17 @@
     <bean lazy-init="true" id="ConvertDestinations" class="com.epam.bigdata.Converter" init-method="init">
         <property name="src">
             <bean class="java.io.File">
-                <constructor-arg name="pathname" value="${input_dir}${destinations2.scr}"/>
+                <constructor-arg name="pathname" value="${input_dir}${destinations.scr}"/>
             </bean>
         </property>
         <property name="csvReader" ref="csvReader"/>
         <property name="targetFile">
             <bean class="java.io.File">
-                <constructor-arg name="pathname" value="${output_dir}${destinations2.output}"/>
+                <constructor-arg name="pathname" value="${output_dir}${destinations.output}"/>
             </bean>
         </property>
         <property name="factory">
-            <bean class="com.epam.bigdata.factories.Destinations2Factory">
+            <bean class="com.epam.bigdata.factories.DestinationsFactory">
                 <constructor-arg name="d2" ref="destinations2Example"/>
             </bean>
         </property>
@@ -117,18 +117,18 @@
     <bean lazy-init="true" id="ConvertTest2" class="com.epam.bigdata.Converter" init-method="init">
         <property name="src">
             <bean class="java.io.File">
-                <constructor-arg name="pathname" value="${input_dir}${test2.scr}"/>
+                <constructor-arg name="pathname" value="${input_dir}${test.scr}"/>
             </bean>
         </property>
         <property name="csvReader" ref="csvReader"/>
         <property name="targetFile">
             <bean class="java.io.File">
-                <constructor-arg name="pathname" value="${output_dir}${test2.output}"/>
+                <constructor-arg name="pathname" value="${output_dir}${test.output}"/>
             </bean>
         </property>
         <property name="factory">
             <bean class="com.epam.bigdata.factories.TestFactory">
-                <constructor-arg name="test2" ref="test2Example"/>
+                <constructor-arg name="test" ref="test2Example"/>
             </bean>
         </property>
         <property name="avroFile">

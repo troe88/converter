@@ -7,7 +7,7 @@ import org.apache.avro.Schema;
 import java.util.List;
 
 @AllArgsConstructor
-public class Destinations2Factory implements IFactory {
+public class DestinationsFactory implements IFactory {
 
     Destinations d2;
 
