@@ -1,7 +1,7 @@
 {
  "namespace": "com.epam.bigdata.entities",
  "type": "record",
- "name": "Destinations2",
+ "name": "Destinations",
  "fields": [
     {"name": "srch_destination_id", "type": "long"},
     {"name": "d1", "type": "float"},

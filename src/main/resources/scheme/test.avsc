@@ -1,7 +1,7 @@
 {
  "namespace": "com.epam.bigdata.entities",
  "type": "record",
- "name": "Test2",
+ "name": "Test",
  "fields": [
      {"name": "id", "type": "string"},
      {"name": "date_time", "type": "string"},

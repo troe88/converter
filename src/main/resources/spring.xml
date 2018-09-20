@@ -21,8 +21,8 @@
         <constructor-arg name="hotel_cluster" value=""/>
     </bean>
     <bean id="trainExample" class="com.epam.bigdata.entities.Train"/>
-    <bean id="destinations2Example" class="com.epam.bigdata.entities.Destinations2"/>
-    <bean id="test2Example" class="com.epam.bigdata.entities.Test2"/>
+    <bean id="destinations2Example" class="com.epam.bigdata.entities.Destinations"/>
+    <bean id="test2Example" class="com.epam.bigdata.entities.Test"/>
     <!--!SAMPLES-->
 
     <bean id="csvReader" class="de.siegmar.fastcsv.reader.CsvReader">
@@ -51,7 +51,7 @@
             <bean class="org.apache.avro.file.DataFileWriter">
                 <constructor-arg name="dout">
                     <bean class="org.apache.avro.specific.SpecificDatumWriter">
-                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Destinations2"/>
+                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Destinations"/>
                     </bean>
                 </constructor-arg>
             </bean>
@@ -127,7 +127,7 @@
             </bean>
         </property>
         <property name="factory">
-            <bean class="com.epam.bigdata.factories.Test2Factory">
+            <bean class="com.epam.bigdata.factories.TestFactory">
                 <constructor-arg name="test2" ref="test2Example"/>
             </bean>
         </property>
@@ -135,7 +135,7 @@
             <bean class="org.apache.avro.file.DataFileWriter">
                 <constructor-arg name="dout">
                     <bean class="org.apache.avro.specific.SpecificDatumWriter">
-                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Test2"/>
+                        <constructor-arg type="java.lang.Class" value="com.epam.bigdata.entities.Test"/>
                     </bean>
                 </constructor-arg>
             </bean>
