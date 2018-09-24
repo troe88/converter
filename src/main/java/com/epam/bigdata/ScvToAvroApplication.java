@@ -10,13 +10,13 @@ import java.util.List;
 @SpringBootApplication
 public class ScvToAvroApplication {
 
-    private List<Converter> converters;
+    private List<IConverter> converters;
 
     public static void main(String[] args) {
         new ClassPathXmlApplicationContext("spring.xml");
     }
 
     public void convertAll() {
-        converters.parallelStream().forEach(Converter::proc);
+        converters.parallelStream().forEach(IConverter::proc);
     }
 }

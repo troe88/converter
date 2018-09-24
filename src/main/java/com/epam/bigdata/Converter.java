@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 @Setter
 @Getter
-public class Converter {
+public class Converter implements IConverter {
     private Logger logger = LoggerFactory.getLogger(Converter.class);
 
     private File src;
@@ -29,7 +29,7 @@ public class Converter {
 
     private DataFileWriter avroFile;
 
-    void init() {
+    private void init() {
         try {
             csvParser = csvReader.parse(src, StandardCharsets.UTF_8);
             avroFile.create(factory.getSchema(), targetFile);
@@ -38,10 +38,11 @@ public class Converter {
         }
     }
 
-    void proc() {
-        logger.info(String.format("Converting has started, target: %s", src.getName()));
+    @Override
+    public void proc() {
+        logger.info(String.format("Converting to AVRO has started, target: %s", src.getName()));
         convert();
-        logger.info(String.format("Converting has finished, result - %s", targetFile.getName()));
+        logger.info(String.format("Converting to AVRO has finished, result - %s", targetFile.getName()));
     }
 
     @SuppressWarnings("all")

@@ -1,14 +1,22 @@
+#input_dir: C://Users//Dmitry_Lebedev1//Documents//big//exampleData//
+#output_dir: C://Users//Dmitry_Lebedev1//Documents//big//exampleData//
+fs.default.name: hdfs://localhost:8020
 input_dir: .//
 output_dir: .//
+output_dir_parquet: /user/cloudera/test/
 sample:
   scr: sample_submission.csv
   output: sample_submission.avro
+  parquet: sample_submission.parquet
 destinations:
   scr: destinations.csv
   output: destinations.avro
+  parquet: destinations.parquet
 test:
   scr: test.csv
   output: test.avro
+  parquet: test.parquet
 train:
   scr: train.csv
   output: train.avro
+  parquet: train.parquet

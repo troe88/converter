@@ -6,6 +6,7 @@
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
     <bean id="YAMLConfig" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
         <property name="resources">
             <list>
@@ -29,7 +30,7 @@
         <property name="containsHeader" value="true"/>
     </bean>
 
-    <!--CONVERTERS-->
+    <!--CONVERTERS AVRO-->
     <bean lazy-init="true" id="ConvertDestinations" class="com.epam.bigdata.Converter" init-method="init">
         <property name="src">
             <bean class="java.io.File">
@@ -141,15 +142,110 @@
             </bean>
         </property>
     </bean>
-    <!--!CONVERTERS-->
+
+    <!--!CONVERTERS PARQUET-->
+    <bean lazy-init="true" id="ConvertDestinationsParquet" class="com.epam.bigdata.ConverterParquet" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${destinations.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetPath">
+            <bean class="org.apache.hadoop.fs.Path">
+                <constructor-arg name="pathString" value="${output_dir_parquet}${destinations.parquet}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.DestinationsFactory">
+                <constructor-arg name="d2" ref="destinations2Example"/>
+            </bean>
+        </property>
+        <property name="conf">
+            <bean class="org.apache.hadoop.conf.Configuration"/>
+        </property>
+        <property name="fsName" value="${fs.default.name}"/>
+    </bean>
+    <bean lazy-init="true" id="ConvertTrainParquet" class="com.epam.bigdata.ConverterParquet" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${train.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetPath">
+            <bean class="org.apache.hadoop.fs.Path">
+                <constructor-arg name="pathString" value="${output_dir_parquet}${train.parquet}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.TrainFactory">
+                <constructor-arg name="train" ref="trainExample"/>
+            </bean>
+        </property>
+        <property name="conf">
+            <bean class="org.apache.hadoop.conf.Configuration"/>
+        </property>
+        <property name="fsName" value="${fs.default.name}"/>
+    </bean>
+    <bean lazy-init="true" id="ConvertSampleSubmissionParquet" class="com.epam.bigdata.ConverterParquet"
+          init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${sample.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetPath">
+            <bean class="org.apache.hadoop.fs.Path">
+                <constructor-arg name="pathString" value="${output_dir_parquet}${sample.parquet}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.SampleSubmissionFactory">
+                <constructor-arg name="sampleSubmission" ref="sampleSubmissionExample"/>
+            </bean>
+        </property>
+        <property name="conf">
+            <bean class="org.apache.hadoop.conf.Configuration"/>
+        </property>
+        <property name="fsName" value="${fs.default.name}"/>
+    </bean>
+    <bean lazy-init="true" id="ConvertTest2Parquet" class="com.epam.bigdata.ConverterParquet" init-method="init">
+        <property name="src">
+            <bean class="java.io.File">
+                <constructor-arg name="pathname" value="${input_dir}${test.scr}"/>
+            </bean>
+        </property>
+        <property name="csvReader" ref="csvReader"/>
+        <property name="targetPath">
+            <bean class="org.apache.hadoop.fs.Path">
+                <constructor-arg name="pathString" value="${output_dir_parquet}${test.parquet}"/>
+            </bean>
+        </property>
+        <property name="factory">
+            <bean class="com.epam.bigdata.factories.TestFactory">
+                <constructor-arg name="test" ref="test2Example"/>
+            </bean>
+        </property>
+        <property name="conf">
+            <bean class="org.apache.hadoop.conf.Configuration"/>
+        </property>
+        <property name="fsName" value="${fs.default.name}"/>
+    </bean>
+    <!--CONVERTERS PARQUET-->
 
     <bean id="Converters" class="com.epam.bigdata.ScvToAvroApplication" init-method="convertAll">
         <constructor-arg name="converters">
             <list>
                 <ref bean="ConvertDestinations"/>
-                <ref bean="ConvertTrain"/>
+                <!--<ref bean="ConvertTrain"/>-->
                 <ref bean="ConvertSampleSubmission"/>
                 <ref bean="ConvertTest2"/>
+                <ref bean="ConvertDestinationsParquet"/>
+                <!--<ref bean="ConvertTrainParquet"/>-->
+                <ref bean="ConvertSampleSubmissionParquet"/>
+                <ref bean="ConvertTest2Parquet"/>
             </list>
         </constructor-arg>
     </bean>
